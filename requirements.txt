@@ -1,0 +1,6 @@
+streamlit
+selenium
+requests
+beautifulsoup4
+pyperclip
+fpdf
