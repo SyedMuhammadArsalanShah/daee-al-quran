@@ -34,6 +34,7 @@ h1, h2, h3 {
     border-radius: 12px !important;
     padding: 10px 15px !important;
     font-size: 15px !important;
+    font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', serif !important;
 }
 .stButton button {
     background: linear-gradient(135deg, #1e3a8a, #4338ca) !important;
@@ -89,7 +90,7 @@ h1, h2, h3 {
     width:180px;
     height:180px;
     margin-bottom:15px;
-    border: 4px solid #1e40af;
+    border: 8px solid #1e40af;
 }
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&display=swap" rel="stylesheet">
