@@ -145,7 +145,7 @@ def save_pdf_fpdf(text, filename="content.pdf"):
 # -------- Streamlit UI --------
 st.markdown("""
 <div style="text-align:center;">
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrzS1yZ1cKk7WrfaygfGt7IMzQmCTTztDY1MzKjrVv6u9lSyr9mKZH6ouHr671eKy8ebI&usqp=CAU"
+    <img src="https://www.tanzeem.org/wp-content/uploads/2024/02/bani.png"
     alt="ڈاکٹر اسرار احمد" class="img-center">
 </div>
 """, unsafe_allow_html=True)
