@@ -1,8 +1,4 @@
 import streamlit as st
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 import requests
 from bs4 import BeautifulSoup
 import pyperclip
@@ -19,7 +15,6 @@ st.set_page_config(
 # -------- Custom CSS --------
 st.markdown("""
 <style>
-/* Global Urdu font */
 html, body, [class*="css"], .stMarkdown, .stTextInput, .stSelectbox, .stButton, .stAlert ,div{
     font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', serif !important;
     font-size: 15px !important;
@@ -28,25 +23,18 @@ html, body, [class*="css"], .stMarkdown, .stTextInput, .stSelectbox, .stButton, 
     line-height: 2 !important;
     color: #111827;
 }
-
-/* Headings */
 h1, h2, h3 {
     font-family: 'Noto Nastaliq Urdu', serif !important;
     text-align: center !important;
     color: #1e3a8a !important;
     margin-bottom: 20px;
 }
-
-/* Search Box */
 .stTextInput input {
     border: 2px solid #1e3a8a !important;
     border-radius: 12px !important;
     padding: 10px 15px !important;
     font-size: 15px !important;
-    font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', serif !important;
 }
-
-/* Buttons */
 .stButton button {
     background: linear-gradient(135deg, #1e3a8a, #4338ca) !important;
     color: white !important;
@@ -59,8 +47,6 @@ h1, h2, h3 {
     background: linear-gradient(135deg, #4338ca, #1e3a8a) !important;
     transform: scale(1.05);
 }
-
-/* Card Style */
 .card {
     background: #ffffff;
     padding: 25px;
@@ -69,8 +55,6 @@ h1, h2, h3 {
     box-shadow: 0 6px 30px rgba(0,0,0,0.12);
     font-size: 18px;
 }
-
-/* Summary bullets */
 .summary-bullet {
     background: #f9fafb;
     padding: 12px 18px;
@@ -79,8 +63,6 @@ h1, h2, h3 {
     border-right: 5px solid #1e40af;
     font-size: 17px;
 }
-
-/* WhatsApp + Copy + PDF buttons */
 .button-style {
     text-decoration:none;
     display:inline-block;
@@ -99,8 +81,6 @@ h1, h2, h3 {
 .pdf-btn:hover {background:#4338ca;}
 .copy-btn:hover {background:#d97706;}
 .whatsapp-btn:hover {background:#128C7E;}
-
-/* Center image */
 .img-center {
     display:block;
     margin-left:auto;
@@ -118,20 +98,15 @@ h1, h2, h3 {
 # -------- Constants --------
 BASE_URL = "https://tanzeemdigitallibrary.com"
 
-# -------- Selenium Setup --------
-options = webdriver.ChromeOptions()
-options.add_argument("--headless=new")
-options.add_argument("--disable-gpu")
-options.add_argument("--no-sandbox")
-driver = webdriver.Chrome(options=options)
-
 # -------- Functions --------
 def search_books(query):
-    driver.get(f"{BASE_URL}/Search/{query}")
-    results = WebDriverWait(driver, 30).until(
-        EC.presence_of_all_elements_located((By.CSS_SELECTOR, "ul#resultlist li a"))
-    )
-    return [{"id": res.get_attribute("id"), "title": res.text.strip()} for res in results]
+    url = f"{BASE_URL}/Search/{query}"
+    r = requests.get(url)
+    soup = BeautifulSoup(r.text, "html.parser")
+    results = []
+    for link in soup.select("ul#resultlist li a"):
+        results.append({"id": link.get("id"), "title": link.text.strip()})
+    return results
 
 def get_page_content(book_id, search_text):
     url = f"{BASE_URL}/Home/GetSearchData"
@@ -167,7 +142,6 @@ def save_pdf_fpdf(text, filename="content.pdf"):
     pdf.output(filename)
 
 # -------- Streamlit UI --------
-
 st.markdown("""
 <div style="text-align:center;">
     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrzS1yZ1cKk7WrfaygfGt7IMzQmCTTztDY1MzKjrVv6u9lSyr9mKZH6ouHr671eKy8ebI&usqp=CAU"
